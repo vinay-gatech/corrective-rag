@@ -2,6 +2,9 @@ from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from pydantic.v1 import BaseModel, Field
+# from ingestion import retrieve_documents
+from langchain_chroma import Chroma
+from langchain_openai import OpenAIEmbeddings
 
 load_dotenv(dotenv_path='../../.env')
 
@@ -30,4 +33,21 @@ grade_prompt    = ChatPromptTemplate.from_messages(
     ]
 )
 
+
+retriever = Chroma(
+    collection_name="rag-chroma",
+    persist_directory="../../chroma",
+    embedding_function=OpenAIEmbeddings()
+).as_retriever()
+
+
 retrieval_grader    = grade_prompt | structured_llm_grader
+question            = "Agent memory"
+doc_text            = retriever.invoke(question)
+
+print(retrieval_grader.invoke(
+    {
+        "question": "Agent memory",
+        "document": question
+    }
+))

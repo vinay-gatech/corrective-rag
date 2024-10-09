@@ -34,12 +34,13 @@ def store_to_vectordb(split_documents):
         )
 
 def retrieve_documents():
-        retriever = Chroma().as_retriever(
-            collection_name="rag-chroma",
-            persist_directory="chroma",
-            embedding=OpenAIEmbeddings()
+    retriever = Chroma(
+        collection_name="rag-chroma",
+        persist_directory="../../chroma",
+        embedding_function=OpenAIEmbeddings()
+    ).as_retriever()
 
-        )
+    return retriever
 
 
 split_docs  = split_text(load_documents(scrape_urls))
