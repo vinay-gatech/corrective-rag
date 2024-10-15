@@ -1,9 +1,12 @@
+from dotenv import load_dotenv
 from typing import Any, Dict
 
-from graph.state import GraphState
-from graph.chains.retrieval_grader_chain import retrieval_grader
+load_dotenv()
 
-def grade_documents(state: GraphState) -> Dict[str, Any]:
+from graph.chains.retrieval_grader import retrieval_grader
+from graph.state import GraphState
+
+def grade_documents(state: GraphState)-> Dict[str, Any]:
     """
     Determines whether the retrieved documents are relevant to the question
     If any document is not relevant, we will set a flag to run web search
@@ -16,6 +19,7 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
     :param state:
     :return:
     """
+    print("---CHECK DOCUMENT RELEVANCE TO THE QUESTION---" )
     question    = state["question"]
     documents   = state["documents"]
 
@@ -37,3 +41,5 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
             continue
 
     return {"documents": filtered_docs, "question": question, "web_search": web_search}
+
+

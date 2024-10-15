@@ -1,18 +1,19 @@
 from typing import List, TypedDict
 
-# include all the states needed for graph execution
+from langchain_core.outputs import generation
+
+
 class GraphState(TypedDict):
     """
-    Represents the
+    Represents the state of our graph
 
     Attributes:
-        question:   Question
+        question: Qustion
         generation: LLM generation
-        web_seach:  Whether to search the web for additional info
-        documents:  List of documents
+        web_seach: Whether to search the web for additional info
+        documents: List of documents
     """
-
-    question:   str
+    question: str
     generation: str
-    web_seach:  bool
-    documents:  List[str]
+    web_seach: bool
+    documents: List[str]
